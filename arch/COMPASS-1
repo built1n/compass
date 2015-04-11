@@ -43,8 +43,8 @@ All instructions are 16 bits wide.
 | 0000 010 000 aaa ddd | LD aA, dD       | Copies address to data register      |
 | 0000 011 001 ddd aaa | LD dD, aA       | Copies data to address register      |
 |===============================================================================|
-| 0000 1aa aii iii iii | LD $imm, aA     | Loads immediate to address register  |
-| 0001 0dd dii iii iii | LD $imm, dD     | Loads immediate to data register     |
+| 0001 0aa aii iii iii | LD $imm, aA     | Loads immediate to address register  |
+| 0001 1dd dii iii iii | LD $imm, dD     | Loads immediate to data register     |
 |===============================================================================|
 | 0010 000 aaa bbb ddd | ADD dA, dB, dD  | dA + dB -> dD                        |
 | 0010 001 aaa bbb ddd | SUB dA, dB, dD  | dA - dB -> dD                        |
