@@ -1,0 +1,72 @@
+COMPASS-1: "Computer Onboard Mathematical Processing and Storage System"
+========================================================================
+
+Note: WIP
+
+Introduction
+============
+COMPASS-1 is a 8-bit RISC processor architecture with 16-bit addressing.
+
+User-visible Registers
+======================
+All registers are 8 bits wide except the program counter, which is 16 bits wide.
+
+A0-A7: address registers
+ - Address registers are 8 bits, but consecutive pairs (including A7:A0) may be
+   treated as 16-bit. A 16-bit address is referred to by the register from which
+   the high 8 bits are taken. The low 8 bits are taken from the next register.
+D0-D7: data registers
+
+There is no fixed stack pointer, any of the address registers may be used as a
+stack pointer.
+
+Assembly Language
+=================
+Destination comes AFTER the operands.
+Immediate values are denoted with a $.
+Address registers are prefixed with a lowercase 'a'.
+Data registers are prefixed with a lowercase 'd'.
+
+Instruction Set
+===============
+All instructions are 16 bits wide.
+
+=================================================================================
+|        Opcode        |     Mnemonic    |         Operation Performed          |
+|===============================================================================|
+| 0000 000 ddd bbb ooo | LD [aB+dO], dD  | Loads from memory to data register   |
+| 0000 001 ddd bbb ooo | LD dD, [aB+dO]  | Stores from data register to memory  |
+| 0000 010 000 aaa ddd | LD aA, dD       | Copies address to data register      |
+| 0000 011 001 ddd aaa | LD dD, aA       | Copies data to address register      |
+|===============================================================================|
+| 0000 1aa aii iii iii | LD $imm, aA     | Loads immediate to address register  |
+| 0001 0dd dii iii iii | LD $imm, dD     | Loads immediate to data register     |
+|===============================================================================|
+| 0010 000 aaa bbb ddd | ADD dA, dB, dD  | dA + dB -> dD                        |
+| 0010 001 aaa bbb ddd | SUB dA, dB, dD  | dA - dB -> dD                        |
+|===============================================================================|
+| 0011 000 aaa bbb ddd | OR dA, dB, dD   | dA OR dB -> dD                       |
+| 0011 001 aaa bbb ddd | AND dA, dB, dD  | dA AND dB -> dD                      |
+| 0011 010 aaa bbb ddd | XOR dA, dB, dD  | dA XOR dB -> dD                      |
+| 0011 011 aaa bbb ddd | NAND dA, dB, dD | dA NAND dB -> dD                     |
+| 0011 100 aaa bbb ddd | XNOR dA, dB, dD | dA XNOR dB -> dD                     |
+| 0011 101 000 aaa ddd | NOT dA, dD      | NOT dA -> dD                         |
+|===============================================================================|
+| 0011 110 aaa bbb ddd | LSH dA, dB, dD  | dA << dB -> dD                       |
+| 0011 111 aaa bbb ddd | RSH dA, dB, dD  | dA >> dB -> dD                       |
+|===============================================================================|
+| 0100 000 000 000 aaa | JMP aA          | aA -> PC                             |
+| 0100 001 aaa bbb ddd | JB dA, dB, aD   | if dA is below dB then aD->PC        |
+| 0100 010 aaa bbb ddd | JE dA, dB, aD   | if dA equals dB then aD->PC          |
+|===============================================================================|
+| 0100 011 000 aaa ppp | CALL aA, pP     | Pushes PC + 2 (big-endian); aA -> PC |
+| 0100 011 001 aaa ppp | RET pP          | (pP) -> PC; pP + 2 -> pP             |
+|===============================================================================|
+| 0101 000 000 ppp aaa | PUSH aA, aP     | aP - 1 -> aP; aA -> (aP)             |
+| 0101 000 001 ppp aaa | PUSH dA, aP     | aP - 1 -> aP; dA -> (aP)             |
+| 0101 000 010 ppp aaa | POP pP, aA      | (pP) -> aA; pP + 1 -> pP             |
+| 0101 000 011 ppp aaa | POP pP, dA      | (pP) -> dA; pP + 1 -> pP             |
+|===============================================================================|
+| 1111 000 000 ddd ppp | OUTB dD, P      | Outputs dD to port aP                |
+| 1111 000 001 ppp ddd | INB  dD, P      | Reads from port aP to dD             |
+=================================================================================
