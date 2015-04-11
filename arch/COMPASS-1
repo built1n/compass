@@ -74,3 +74,5 @@ All instructions are 16 bits wide.
 | 1111 000 000 ddd ppp | OUTB dD, aP     | Outputs dD to port aP                |
 | 1111 000 001 ppp ddd | INB  dD, aP     | Reads from port aP to dD             |
 =================================================================================
+| 1111 111 111 111 111 | NOP             | No operation                         |
+=================================================================================
